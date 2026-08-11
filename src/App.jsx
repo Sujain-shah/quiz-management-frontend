@@ -1,23 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
-  const [message, setMessage] = useState("Connecting...");
-
-  useEffect(() => {
-    fetch("http://localhost:5000/api/health")
-      .then((response) => response.json())
-      .then((data) => {
-        setMessage(data.message);
-      })
-      .catch(() => {
-        setMessage("Backend connection failed");
-      });
-  }, []);
+  const [showLogin, setShowLogin] = useState(true);
 
   return (
     <div>
-      <h1>Quiz Management Platform</h1>
-      <p>{message}</p>
+      {showLogin ? <Login /> : <Register />}
+
+      <div>
+        {showLogin ? (
+          <p>
+            Don't have an account?{" "}
+            <button onClick={() => setShowLogin(false)}>
+              Register
+            </button>
+          </p>
+        ) : (
+          <p>
+            Already have an account?{" "}
+            <button onClick={() => setShowLogin(true)}>
+              Login
+            </button>
+          </p>
+        )}
+      </div>
     </div>
   );
 }
