@@ -1,31 +1,25 @@
 import { useState } from "react";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import AdminDashboard from "./pages/AdminDashboard";
+import Users from "./pages/Users";
 
 function App() {
-  const [showLogin, setShowLogin] = useState(true);
+  const [currentPage, setCurrentPage] = useState("dashboard");
 
   return (
     <div>
-      {showLogin ? <Login /> : <Register />}
+      <nav>
+        <button onClick={() => setCurrentPage("dashboard")}>
+          Dashboard
+        </button>
 
-      <div>
-        {showLogin ? (
-          <p>
-            Don't have an account?{" "}
-            <button onClick={() => setShowLogin(false)}>
-              Register
-            </button>
-          </p>
-        ) : (
-          <p>
-            Already have an account?{" "}
-            <button onClick={() => setShowLogin(true)}>
-              Login
-            </button>
-          </p>
-        )}
-      </div>
+        <button onClick={() => setCurrentPage("users")}>
+          Users
+        </button>
+      </nav>
+
+      {currentPage === "dashboard" && <AdminDashboard />}
+
+      {currentPage === "users" && <Users />}
     </div>
   );
 }
