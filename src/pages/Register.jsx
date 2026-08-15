@@ -1,99 +1,43 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../api";
+import Alert from "../components/Alert";
 
-function Register() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: ""
-  });
+export default function Register() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const [message, setMessage] = useState("");
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
+  async function submit(e) {
     e.preventDefault();
-
+    setError("");
+    setSuccess("");
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(formData)
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage(data.message);
-        return;
-      }
-
-      setMessage(data.message);
-
-      setFormData({
-        name: "",
-        email: "",
-        password: ""
-      });
-    } catch (error) {
-      setMessage("Unable to connect to server");
+      await auth.register(form);
+      setSuccess("Registration successful. You can login now.");
+      setTimeout(() => navigate("/login"), 800);
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed");
     }
-  };
+  }
 
   return (
-    <div>
-      <h1>Student Registration</h1>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <button type="submit">Register</button>
-      </form>
-
-      {message && <p>{message}</p>}
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="brand big">Quiz<span>Flow</span></div>
+        <p className="muted">Create your student account</p>
+        <h2>Register</h2>
+        <Alert message={error} />
+        <Alert message={success} type="success" />
+        <form onSubmit={submit}>
+          <label>Name<input required value={form.name} onChange={e => setForm({...form,name:e.target.value})} /></label>
+          <label>Email<input type="email" required value={form.email} onChange={e => setForm({...form,email:e.target.value})} /></label>
+          <label>Password<input type="password" required minLength="6" value={form.password} onChange={e => setForm({...form,password:e.target.value})} /></label>
+          <button className="primary full">Create Account</button>
+        </form>
+        <p className="auth-link">Already registered? <Link to="/login">Login</Link></p>
+      </div>
     </div>
   );
 }
-
-export default Register;
