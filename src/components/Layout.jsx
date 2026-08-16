@@ -8,7 +8,7 @@ export default function Layout() {
   const admin = roleOf(user) === "ADMIN";
 
   async function logout() {
-    try { await auth.logout(); } catch {}
+    try { await auth.logout(); } catch { }
     clearSession();
     navigate("/login", { replace: true });
   }
@@ -26,6 +26,7 @@ export default function Layout() {
               <NavLink to="/admin/quizzes">Quizzes</NavLink>
               <NavLink to="/admin/categories">Categories</NavLink>
               <NavLink to="/admin/users">Students</NavLink>
+              <NavLink to="/admin/analytics">Analytics</NavLink>
             </>
           ) : (
             <>
@@ -45,7 +46,7 @@ export default function Layout() {
             <h1>{admin ? "Admin Panel" : "Student Portal"}</h1>
           </div>
           <div className="user-chip">
-            <div className="avatar">{(user?.name || "U").slice(0,1).toUpperCase()}</div>
+            <div className="avatar">{(user?.name || "U").slice(0, 1).toUpperCase()}</div>
             <div>
               <strong>{user?.name || "User"}</strong>
               <small>{user?.email || ""}</small>

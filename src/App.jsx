@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { getToken, getUser, roleOf } from "./auth";
+import AdminAnalytics from "./pages/AdminAnalytics";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -52,6 +53,10 @@ export default function App() {
         <Route path="/admin/categories" element={<AdminCategories />} />
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/questions/:quizId" element={<AdminQuestions />} />
+        <Route
+          path="/admin/analytics"
+          element={<AdminAnalytics />}
+        />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
