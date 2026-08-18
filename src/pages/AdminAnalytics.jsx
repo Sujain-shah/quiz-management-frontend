@@ -227,13 +227,16 @@ export default function AdminAnalytics() {
                                 outerRadius={100}
                                 label
                             >
-                                {passFailData.map(
-                                    (_, index) => (
-                                        <Cell
-                                            key={index}
-                                        />
-                                    )
-                                )}
+                                {passFailData.map((entry, index) => (
+                                    <Cell
+                                        key={`cell-${index}`}
+                                        fill={
+                                            entry.name === "Passed"
+                                                ? "#22c55e"
+                                                : "#ef4444"
+                                        }
+                                    />
+                                ))}
                             </Pie>
 
                             <Tooltip />
