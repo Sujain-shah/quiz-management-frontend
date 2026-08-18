@@ -15,6 +15,7 @@ import AdminCategories from "./pages/AdminCategories";
 import AdminUsers from "./pages/AdminUsers";
 import AdminQuestions from "./pages/AdminQuestions";
 import Layout from "./components/Layout";
+import Leaderboard from "./pages/Leaderboard";
 
 function Protected({ children, role }) {
   if (!getToken()) return <Navigate to="/login" replace />;
@@ -45,6 +46,10 @@ export default function App() {
         <Route path="/student/quizzes/:id" element={<QuizDetails />} />
         <Route path="/student/quiz/:quizId/attempt/:attemptId" element={<QuizAttempt />} />
         <Route path="/student/result/:attemptId" element={<Result />} />
+        <Route
+          path="/student/leaderboard"
+          element={<Leaderboard />}
+        />
       </Route>
 
       <Route element={<Protected role="ADMIN"><Layout /></Protected>}>

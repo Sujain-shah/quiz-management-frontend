@@ -32,6 +32,7 @@ export default function Layout() {
             <>
               <NavLink to="/student">Dashboard</NavLink>
               <NavLink to="/student/quizzes">Browse Quizzes</NavLink>
+              <NavLink to="/student/leaderboard">Leaderboard</NavLink>
             </>
           )}
         </nav>
